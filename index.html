@@ -20,32 +20,37 @@
 </section>
 <section class="card-photo"><div class="portrait-placeholder"><img class="portrait-image" src="kcsomoza.png" alt="KC Somoza portrait"></div><div class="portrait-overlay"><h3>KC SOMOZA</h3><p>PRODUCTION MANAGER</p></div><button class="download-button" type="button" aria-label="Download contact" title="Download contact">↓</button></section>
 </article></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 (() => {
   const button = document.querySelector('.download-button');
-  if (!button) return;
-  button.addEventListener('click', () => {
-    const vcard = [
-      'BEGIN:VCARD',
-      'VERSION:3.0',
-      'FN:KC Somoza',
-      'TITLE:Production Manager',
-      'EMAIL;TYPE=INTERNET:workwithkc@gmail.com',
-      'TEL;TYPE=CELL:+639524698522',
-      'URL:https://www.facebook.com/notkcrs',
-      'URL:https://www.instagram.com/notkcrs/',
-      'URL:https://www.tiktok.com/@notesfromkc',
-      'END:VCARD'
-    ].join('\\r\\n');
-    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'KC-Somoza.vcf';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+  const card = document.querySelector('.business-card');
+  if (!button || !card) return;
+  button.addEventListener('click', async () => {
+    if (!window.html2canvas) {
+      alert('Image export is unavailable. Please try again after refreshing.');
+      return;
+    }
+    button.disabled = true;
+    button.textContent = '…';
+    try {
+      const canvas = await html2canvas(card, {
+        scale: 3,
+        backgroundColor: null,
+        useCORS: true,
+        logging: false
+      });
+      const link = document.createElement('a');
+      link.download = 'KC-Somoza-Digital-Business-Card.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('PNG export failed:', error);
+      alert('Could not download the card image. Please try again.');
+    } finally {
+      button.disabled = false;
+      button.textContent = '↓';
+    }
   });
 })();
 </script>
