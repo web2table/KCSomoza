@@ -18,5 +18,35 @@
 </div></div>
 <footer class="card-footer"><a href="#" class="website-link">Personal Profile <span>↗</span></a><span class="footer-caption">Let's connect</span></footer>
 </section>
-<section class="card-photo"><div class="portrait-placeholder"><img class="portrait-image" src="kcsomoza.png" alt="KC Somoza portrait"></div><div class="portrait-overlay"><h3>KC SOMOZA</h3><p>PRODUCTION MANAGER</p></div><button class="download-button" type="button" aria-label="Save contact" title="Save contact" disabled>↓</button></section>
-</article></main></body></html>
+<section class="card-photo"><div class="portrait-placeholder"><img class="portrait-image" src="kcsomoza.png" alt="KC Somoza portrait"></div><div class="portrait-overlay"><h3>KC SOMOZA</h3><p>PRODUCTION MANAGER</p></div><button class="download-button" type="button" aria-label="Download contact" title="Download contact">↓</button></section>
+</article></main>
+<script>
+(() => {
+  const button = document.querySelector('.download-button');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    const vcard = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      'FN:KC Somoza',
+      'TITLE:Production Manager',
+      'EMAIL;TYPE=INTERNET:workwithkc@gmail.com',
+      'TEL;TYPE=CELL:+639524698522',
+      'URL:https://www.facebook.com/notkcrs',
+      'URL:https://www.instagram.com/notkcrs/',
+      'URL:https://www.tiktok.com/@notesfromkc',
+      'END:VCARD'
+    ].join('\\r\\n');
+    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'KC-Somoza.vcf';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+</body></html>
